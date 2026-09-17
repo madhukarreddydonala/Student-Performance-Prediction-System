@@ -1,5 +1,7 @@
 # 🎓 EduPredict — Student Performance Prediction System
 
+**Developed by:** DOANALA MADHUKAR REDDY
+
 EduPredict is a production-ready full-stack machine learning application for predicting student exam performance using study habits, attendance, academic history, and learning behavior indicators.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
@@ -280,3 +282,4 @@ pytest tests/ -v --cov=. --cov-report=term-missing
 ---
 
 Built with React, Flask, scikit-learn, MySQL, and Docker.
+
