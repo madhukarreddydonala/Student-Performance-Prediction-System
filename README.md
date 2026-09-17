@@ -9,7 +9,7 @@ EduPredict is a production-ready full-stack machine learning application for pre
 
 ## Overview
 
-EduPredict helps educators, academic teams, and learning platforms estimate student outcomes before final assessments. The platform combines a predictive machine learning model, a Flask REST API, a Vite + React frontend, and a MySQL-backed data layer in a container-friendly architecture.
+EduPredict helps educators, academic teams, and learning platforms estimate student outcomes before final assessments. The platform combines a predictive machine learning model, a Flask REST API,React frontend, and a MySQL-backed data layer in a container-friendly architecture.
 
 The solution is designed for:
 
