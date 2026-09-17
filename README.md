@@ -1,127 +1,143 @@
 # 🎓 EduPredict — Student Performance Prediction System
 
-EduPredict is a production-ready full-stack machine learning application for predicting student exam performance using study habits, attendance, academic history, and learning behavior indicators.
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=20232A)](https://react.dev/)
+[![Flask](https://img.shields.io/badge/Flask-3-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/license-MIT-yellow)](#license)
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Python](https://img.shields.io/badge/python-3.11+-green)
-![Node](https://img.shields.io/badge/node-18+-green)
-![License](https://img.shields.io/badge/license-MIT-yellow)
+EduPredict is a full-stack machine-learning application that estimates student exam performance from study habits, attendance, academic history, and other learning-behavior indicators. It provides an interactive dashboard for creating predictions, exploring prediction history, viewing analytics, and inspecting model feature importance.
 
-## Overview
+> **Important:** Predictions are estimates intended to support educational analysis. They should not be used as the sole basis for academic decisions.
 
-EduPredict helps educators, academic teams, and learning platforms estimate student outcomes before final assessments. The platform combines a predictive machine learning model, a Flask REST API,React frontend, and a MySQL-backed data layer in a container-friendly architecture.
+## ✨ Highlights
 
-The solution is designed for:
+- Interactive prediction form with server-side validation
+- Gradient Boosting regression model with persisted artifacts
+- Analytics dashboard with score and grade visualizations
+- Paginated prediction history
+- Feature-importance view for model interpretability
+- Controlled model-retraining endpoint
+- Flask API with rate limiting, CORS controls, structured logging, and health checks
+- React frontend with responsive UI, dark mode, notifications, and error boundaries
+- MySQL persistence through SQLAlchemy
+- Docker Compose setup for the frontend, backend, and database
+- Automated backend tests with pytest
 
-- Predicting student exam performance from structured academic and behavioral inputs
-- Visualizing training and model performance data
-- Reviewing prediction history and feature importance
-- Supporting retraining workflows in production environments
+## 🧱 Architecture
 
-## Tech Stack
+```text
+React + Vite frontend  →  Flask REST API  →  scikit-learn model
+                                  ↓
+                              MySQL 8
+```
 
-| Layer | Technology |
-|------|------------|
-| Frontend | React 19, Vite, Tailwind CSS 3, Recharts |
-| Backend | Flask 3, Flask-SQLAlchemy, Flask-Limiter |
-| ML Model | scikit-learn Gradient Boosting Regressor |
-| Database | MySQL 8 via PyMySQL |
+The frontend communicates with the Flask API. The API validates requests, invokes the trained model, stores predictions in MySQL, and exposes analytics and model metadata. Docker Compose runs all three services together for a production-style local environment.
+
+## 🛠️ Technology Stack
+
+| Area | Technologies |
+| --- | --- |
+| Frontend | React 19, Vite, React Router, Recharts, Tailwind CSS |
+| Backend | Flask 3, Flask-SQLAlchemy, Flask-CORS, Flask-Limiter |
+| Machine learning | scikit-learn Gradient Boosting Regressor, pandas, NumPy, joblib |
+| Database | MySQL 8, PyMySQL |
 | Deployment | Docker, Docker Compose, Nginx, Waitress |
 | Testing | pytest, pytest-flask |
 
-## Architecture
-
-The application uses a layered architecture:
-
-1. Frontend UI built with Vite and React for prediction, history, analytics, and dashboard views.
-2. Backend API built with Flask that manages validation, rate limiting, authentication-neutral endpoints, and model interaction.
-3. Machine learning component trained on synthetic academic data and persisted locally for inference.
-4. MySQL database for prediction storage and analytics data.
-5. Docker Compose orchestration for multi-service local or production deployment.
-
-## Project Structure
+## 📁 Project Structure
 
 ```text
-mlproject/
+.
 ├── backend/
-│   ├── app.py              # Flask API with validation, rate limiting, and logging
-│   ├── config.py           # Production configuration and environment settings
-│   ├── ml_model.py         # Model training and prediction workflow
-│   ├── wsgi.py              # Production WSGI entry point
-│   ├── seed_data.py         # Seed database with example records
+│   ├── app.py              # Flask API and application setup
+│   ├── config.py           # Environment-based configuration
+│   ├── ml_model.py         # Model training and prediction logic
+│   ├── wsgi.py             # Production WSGI entry point
+│   ├── seed_data.py        # Creates example prediction records
 │   ├── requirements.txt    # Python dependencies
-│   ├── Dockerfile           # Backend container definition
-│   ├── .env.example         # Environment variable template
-│   └── tests/
-│       ├── test_api.py      # API endpoint tests
-│       └── test_model.py   # ML model tests
+│   ├── .env.example        # Backend configuration template
+│   └── tests/              # API and model tests
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx          # Root application and routing
-│   │   ├── main.jsx         # React application entry point
-│   │   ├── index.css        # Global styling and design system
-│   │   ├── components/
-│   │   │   ├── ErrorBoundary.jsx
-│   │   │   ├── Toast.jsx
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── PredictionForm.jsx
-│   │   │   ├── FeatureImportance.jsx
-│   │   │   └── StatsCard.jsx
-│   │   └── pages/
-│   │       ├── Home.jsx
-│   │       ├── Predict.jsx
-│   │       ├── History.jsx
-│   │       ├── Analytics.jsx
-│   │       └── NotFound.jsx
-│   ├── index.html           # SEO-ready HTML template
-│   ├── nginx.conf           # Production Nginx configuration
-│   ├── Dockerfile            # Frontend container configuration
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── package.json
-├── docker-compose.yml         # Full-stack deployment orchestration
-├── .gitignore
-├── .dockerignore
+│   │   ├── App.jsx         # Application shell and routes
+│   │   ├── main.jsx        # React entry point
+│   │   ├── components/     # Reusable UI components
+│   │   └── pages/          # Home, prediction, history, and analytics views
+│   ├── package.json        # Frontend scripts and dependencies
+│   ├── Dockerfile          # Frontend image definition
+│   └── nginx.conf          # Production web-server configuration
+├── docker-compose.yml      # Full-stack orchestration
 └── README.md
 ```
 
-## Getting Started
+## 🚀 Quick Start with Docker
 
 ### Prerequisites
 
-Before starting the project, ensure that the following tools are installed:
+- Docker Engine with Docker Compose
+- Git
 
-- Python 3.11+
-- Node.js 18+
-- npm
-- MySQL Server
+### Run the application
 
-### Local Development Setup
+```bash
+git clone https://github.com/madhukarreddydonala/Student-Performance-Prediction-System.git
+cd Student-Performance-Prediction-System
 
-#### 1. Create the database
+docker compose up --build
+```
+
+Open **http://localhost** in your browser. The API is available at **http://localhost:5000**.
+
+To run in the background or stop the stack:
+
+```bash
+docker compose up --build -d
+docker compose down
+```
+
+To remove the persisted database volume and start over:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+> The Compose file provides development defaults. Set secure values for `SECRET_KEY` and `MYSQL_PASSWORD` before using the application outside local development.
+
+## 💻 Local Development
+
+### 1. Configure MySQL
+
+Create the database before starting the backend:
 
 ```sql
 CREATE DATABASE student_performance;
 ```
 
-#### 2. Configure the backend
+### 2. Set up the backend
 
 ```bash
 cd backend
 cp .env.example .env
+python -m venv .venv
+
+# macOS/Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+# .venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
 python ml_model.py
-pytest tests/ -v
 python app.py
 ```
 
-The backend runs locally at:
+The API runs at **http://localhost:5000**. Update `backend/.env` if your MySQL credentials or host differ from the defaults.
 
-http://localhost:5000
+### 3. Set up the frontend
 
-It automatically creates database tables and trains the model when a model artifact is missing.
-
-#### 3. Configure the frontend
+In a second terminal:
 
 ```bash
 cd frontend
@@ -129,63 +145,28 @@ npm install
 npm run dev
 ```
 
-The frontend is available at:
+Open the Vite development URL shown in the terminal, normally **http://localhost:5173**.
 
-http://localhost:3000
-
-It communicates with the Flask API through the development proxy configuration.
-
-#### 4. Seed data
+### 4. Add sample records (optional)
 
 ```bash
 cd backend
 python seed_data.py
 ```
 
-### Docker Deployment
+## 🔌 API Overview
 
-For a production-style local deployment, run the full stack using Docker Compose:
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/health` | Checks API and database health |
+| `POST` | `/api/predict` | Creates a student performance prediction |
+| `GET` | `/api/predictions` | Returns paginated prediction history |
+| `GET` | `/api/model-info` | Returns model metrics and feature importance |
+| `GET` | `/api/analytics` | Returns dashboard analytics |
+| `POST` | `/api/retrain` | Retrains the machine-learning model |
+| `GET` | `/api/feature-info` | Returns supported input features |
 
-```bash
-docker-compose up --build
-```
-
-Or run it in detached mode:
-
-```bash
-docker-compose up --build -d
-```
-
-Application URL:
-
-http://localhost
-
-To stop the environment:
-
-```bash
-docker-compose down
-```
-
-To reset the database volume:
-
-```bash
-docker-compose down -v
-docker-compose up --build
-```
-
-## API Reference
-
-| Method | Endpoint | Rate Limit | Description |
-|--------|----------|------------|-------------|
-| GET | /api/health | — | Returns service and database health information |
-| POST | /api/predict | 30/min | Creates a student performance prediction |
-| GET | /api/predictions | — | Returns prediction history in paginated format |
-| GET | /api/model-info | — | Returns model metrics and feature importance |
-| GET | /api/analytics | — | Returns analytics data for dashboards and charts |
-| POST | /api/retrain | 3/hour | Retrains the ML model |
-| GET | /api/feature-info | — | Returns feature names and labels |
-
-Example prediction request:
+### Example prediction request
 
 ```bash
 curl -X POST http://localhost:5000/api/predict \
@@ -205,77 +186,77 @@ curl -X POST http://localhost:5000/api/predict \
   }'
 ```
 
-## Features
+The response contains the predicted score, grade information, and related prediction metadata. Use `/api/feature-info` to confirm the supported feature names and labels.
 
-| Feature | Description |
-|---------|-------------|
-| Smart Predictions | Interactive student input form for 10 predictive features |
-| Analytics Dashboard | Grade distribution, score distribution, and chart-based analysis |
-| Prediction History | Paginated prediction tracking with grade visualization |
-| Feature Importance | Explainable model view showing feature impact |
-| Model Retraining | Controlled model retraining workflow |
-| Dark Mode UI | Modern glassmorphism and responsive user experience |
-| Input Validation | Server-side range and schema validation |
-| Rate Limiting | Protection for prediction and retraining endpoints |
-| Structured Logging | Timestamped logging for production observability |
-| Dockerized Deployment | Consistent environment setup via Docker Compose |
-| Automated Testing | pytest coverage for API and ML model workflows |
-| Toast Notifications | User feedback across form and history interactions |
-| Error Boundaries | Protected frontend error handling |
-| SEO Optimization | Optimized HTML structure and metadata |
+## 🤖 Machine-Learning Model
 
-## ML Model Details
+EduPredict trains a **Gradient Boosting Regressor** on 1,500 synthetic academic records. The model uses 10 input features, including study time, attendance, previous scores, assignments, participation, sleep, tutoring, and access indicators.
 
-The prediction engine uses a Gradient Boosting Regressor trained on synthetic academic data featuring realistic correlations between student behavior and performance.
+Training reports:
 
-- Algorithm: Gradient Boosting Regressor
-- Input Features: 10 features including study hours, attendance, assignments, participation, sleep, internet access, tutoring, and academic history
-- Training Data: 1,500 synthetic records
-- Metrics: R², MAE, RMSE, and 5-fold cross-validation output
-- Persistence: Model artifacts are stored locally and retrained automatically when needed
+- R² score
+- Mean absolute error (MAE)
+- Root mean squared error (RMSE)
+- 5-fold cross-validation results
 
-## Security and Reliability
+The trained model is persisted locally and is regenerated when the required artifact is unavailable. Because the default dataset is synthetic, validate the model with representative real-world data before production use.
 
-The platform includes security-oriented and production-ready patterns:
+## 🧪 Testing
 
-- Environment-based configuration and secrets
-- Input validation and boundary checks
-- Student name sanitization
-- Rate limiting on sensitive endpoints
-- CORS configuration for trusted origins
-- SQLAlchemy ORM protections against SQL injection
-- Production WSGI deployment support using Waitress or Gunicorn
-
-## Testing
-
-Run the backend test suite:
+Run the backend tests with:
 
 ```bash
 cd backend
 pytest tests/ -v
 ```
 
-Generate coverage:
+Generate a coverage report with:
 
 ```bash
 pytest tests/ -v --cov=. --cov-report=term-missing
 ```
 
-## Environment Variables
+Build the frontend to verify the production bundle:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| SECRET_KEY | dev-fallback... | Flask secret key |
-| FLASK_ENV | development | Runtime environment |
-| MYSQL_USER | root | Database username |
-| MYSQL_PASSWORD | empty | Database password |
-| MYSQL_HOST | localhost | MySQL host |
-| MYSQL_PORT | 3306 | MySQL port |
-| MYSQL_DB | student_performance | Database name |
-| CORS_ORIGINS | localhost:3000,... | Allowed frontend origins |
-| RATE_LIMIT_PREDICT | 30/minute | Rate limit for prediction endpoint |
-| RATE_LIMIT_RETRAIN | 3/hour | Rate limit for retraining endpoint |
-| LOG_LEVEL | INFO | Logging level |
+```bash
+cd frontend
+npm run build
+```
+
+## ⚙️ Configuration
+
+Copy `backend/.env.example` to `backend/.env` and configure values for your environment. Common settings include:
+
+| Variable | Purpose |
+| --- | --- |
+| `SECRET_KEY` | Flask secret used by the application |
+| `FLASK_ENV` | Runtime environment |
+| `MYSQL_USER` | MySQL username |
+| `MYSQL_PASSWORD` | MySQL password |
+| `MYSQL_HOST` | MySQL hostname (`localhost` locally, `db` in Compose) |
+| `MYSQL_PORT` | MySQL port, normally `3306` |
+| `MYSQL_DB` | Database name |
+| `CORS_ORIGINS` | Comma-separated allowed frontend origins |
+| `RATE_LIMIT_PREDICT` | Prediction endpoint limit |
+| `RATE_LIMIT_RETRAIN` | Retraining endpoint limit |
+| `LOG_LEVEL` | Application logging level |
+
+Never commit real credentials or production secrets. Rotate any credentials that have previously been exposed in a tracked configuration file.
+
+## 🔒 Security and Reliability
+
+The application includes environment-based configuration, input validation, name sanitization, CORS configuration, rate limiting, SQLAlchemy ORM usage, structured logging, health checks, and production WSGI support through Waitress. Review and harden authentication, authorization, secrets management, and monitoring before deploying it to a public environment.
+
+## 🤝 Contributing
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-change`.
+3. Make and test your changes.
+4. Open a pull request with a clear description of the problem and solution.
+
+## 📄 License
+
+This project is distributed under the MIT License. Add a `LICENSE` file to the repository if you want GitHub to display the complete license text and terms.
 
 ---
 
